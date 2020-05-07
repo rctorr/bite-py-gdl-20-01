@@ -21,6 +21,7 @@ def obtener_elementos(carpeta):
     ]
     """
     elementos = []
+    total = 0
     for nom in nombres:
         if os.path.isfile(nom):  # si es un archivo?
             tam = os.path.getsize(nom)
@@ -33,10 +34,13 @@ def obtener_elementos(carpeta):
 
         elemento = [nom, tam, fecha]
         elementos.append(elemento)
+        
+        # sumar el tam a total para cada elemento
+        total += tam  # total = total + tam
     
-    return elementos
+    return elementos, total
 
-def imprimir_elementos(elementos):
+def imprimir_elementos(elementos, total):
     """
     Imprime la lista de elementos en formato texto en la salida
     estándar.
@@ -45,9 +49,12 @@ def imprimir_elementos(elementos):
     for e in elementos:
         # print("{} {}".format(e[0], e[1])
         print("{:30} {:10} {:15}".format(*e))
+    # Imprime toal
+    print("-" * 40)
+    print("Total: {} bytes".format(total))
     
     
 # Llamando a las funciones
-elementos = obtener_elementos(carpeta)
-imprimir_elementos(elementos)
+elementos, total = obtener_elementos(carpeta)
+imprimir_elementos(elementos, total)
 
