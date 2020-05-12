@@ -1,3 +1,4 @@
+import csv
 import os
 import time
 
@@ -91,6 +92,24 @@ def guardar_elementos(elementos):
     
     da.close()
 
+def guardar_elementos_csv(elementos):
+    """
+    Guarda la lista de elementos en el archivo salida.csv.
+    """
+    archivo = "salida.csv"
+    
+    with open(archivo, "w") as da:
+        # Crear un descript de archivo en csv
+        da_csv = csv.writer(da)
+        # Guarda el encabezado
+        enc = ["Nombre", "Tamaño", "Fecha"]
+        da_csv.writerow(enc)
+        # Guardar la lista
+        for e in elementos:  # e = ["nom", 1234, "fecha"]
+            # print("{} {}".format(e[0], e[1])
+            if os.path.isdir(e[0]): # e = ["nom/", 1234, "fecha"]
+                e[0] += "/" # e[0] = e[0] + "/"
+            da_csv.writerow(e)
 
 def main():
     """ Es la función principal del script o módulo """
@@ -98,6 +117,7 @@ def main():
     elementos = obtener_elementos(carpeta)
     imprimir_elementos(elementos)
     guardar_elementos(elementos)
+    guardar_elementos_csv(elementos)
 
 # Para poder ejecutarlo como módulo
 if __name__ == "__main__": 
