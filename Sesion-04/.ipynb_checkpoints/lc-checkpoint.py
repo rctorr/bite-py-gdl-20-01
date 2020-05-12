@@ -1,4 +1,5 @@
 import csv
+import json
 import os
 import time
 
@@ -111,6 +112,15 @@ def guardar_elementos_csv(elementos):
                 e[0] += "/" # e[0] = e[0] + "/"
             da_csv.writerow(e)
 
+def guardar_elementos_json(elementos):
+    """
+    Guarda la lista de elementos en el archivo salida.json.
+    """
+    archivo = "salida.json"
+    
+    with open(archivo, "w") as da:
+        json.dump(elementos, da, indent=4)
+
 def main():
     """ Es la función principal del script o módulo """
     # Llamando a las funciones
@@ -118,6 +128,7 @@ def main():
     imprimir_elementos(elementos)
     guardar_elementos(elementos)
     guardar_elementos_csv(elementos)
+    guardar_elementos_json(elementos)
 
 # Para poder ejecutarlo como módulo
 if __name__ == "__main__": 

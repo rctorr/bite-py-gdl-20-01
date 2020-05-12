@@ -1,0 +1,23 @@
+[
+    ["x1", 123, "fech1"],
+    ["x1", 123, "fech1"],
+    ["x1", 123, "fech1"],
+]
+
+[
+    {
+        "nombre":"x1",
+        "tamaño":123,
+        "fecha":"fech1"
+    },
+    {
+        "nombre":"x1",
+        "tamaño":123,
+        "fecha":"fech1"
+    },
+    {
+        "nombre":"x1",
+        "tamaño":123,
+        "fecha":"fech1"
+    },
+]
