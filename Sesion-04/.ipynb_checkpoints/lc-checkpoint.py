@@ -3,30 +3,24 @@ import time
 
 # Variables
 # carpeta = "/home/rctorr/CursoPython/Sesion-03"
-carpeta = "./datos"  # Carpeta actual
+carpeta = "."  # Carpeta actual
 
 def obtener_elementos(carpeta):
     """
-    Obtiene los elementos de la carpeta y regresa en forma de lista
+    Obtiene los elementos de la carpeta y regresa en forma de
+    lista
     """
     # Obtener la lista de elemento de un carpeta
     try:
-        nombres = os.listdir(carpeta)  # ["nom1", "nom2", ...]
+        nombres = os.listdir(carpeta)
     except PermissionError:
         return [], 0
     
     # Agregando carpeta a la lista de nombres
-    for i, nom in enumerate(nombres):  # [(0, "nom1"), (1, "nom2"), ]
-        nombres[i] = os.path.join(carpeta, nom)  # "./nom1"
-        
-    """
-    Estructura de datos para incluir el tamaño
-    [
-        ["./nom1", 1234],  <- e[0], e[1]
-        ["./nom2", 5678],
-        ...
-    ]
-    """
+    for i, nom in enumerate(nombres):
+        nombres[i] = os.path.join(carpeta, nom)
+    
+    # Agregar los datos adicionales a cada elemento
     elementos = []
     total = 0
     for nom in nombres:
@@ -47,17 +41,25 @@ def obtener_elementos(carpeta):
         elemento = [nom, tam, fecha]
         elementos.append(elemento)
         
+        # si es una carpeta, entonces obtenemos sus elementos
+        if os.path.isdir(nom):  # Si nom es una carpeta?
+            sub_elementos = obtener_elementos(nom)
+            elementos += sub_elementos
+            tam = sub_elementos[-1][1]
+
         # sumar el tam a total para cada elemento
         total += tam  # total = total + tam
-        
-        if os.path.isdir(nom):  # Si nom es una carpeta?
-            sub_elementos, sub_total = obtener_elementos(nom)
-            elementos += sub_elementos
-            
+        # Para hacer depuraci´on pusada
+        # print(elementos)
+        # input("Presiona ENTER")
     
-    return elementos, total
+    # Agregando un elemento auxiliar para el total
+    elemento = ["Total:", total, "bytes"]
+    elementos.append(elemento)
+    
+    return elementos
 
-def imprimir_elementos(elementos, total):
+def imprimir_elementos(elementos):
     """
     Imprime la lista de elementos en formato texto en la salida
     estándar.
@@ -68,13 +70,10 @@ def imprimir_elementos(elementos, total):
         # print("{} {}".format(e[0], e[1])
         if os.path.isdir(e[0]): # e = ["nom/", 1234, "fecha"]
             e[0] += "/" # e[0] = e[0] + "/"
-        print("{:60}|{:10}|{:15}".format(*e))
-    # Imprime toal
-    print("-" * 80)
-    print("Total: {} bytes".format(total))
+        print("{:40}|{:10}|{:15}".format(*e))
     print("-" * 80)
 
-def guardar_elementos(elementos, total):
+def guardar_elementos(elementos):
     """
     Guarda la lista de elementos en el archivo salida.txt.
     """
@@ -88,9 +87,6 @@ def guardar_elementos(elementos, total):
         if os.path.isdir(e[0]): # e = ["nom/", 1234, "fecha"]
             e[0] += "/" # e[0] = e[0] + "/"
         print("{:60}|{:10}|{:15}".format(*e), file=da)
-    # Imprime toal
-    print("-" * 80, file=da)
-    print("Total: {} bytes".format(total), file=da)
     print("-" * 80, file=da)
     
     da.close()
@@ -99,9 +95,9 @@ def guardar_elementos(elementos, total):
 def main():
     """ Es la función principal del script o módulo """
     # Llamando a las funciones
-    elementos, total = obtener_elementos(carpeta)
-    imprimir_elementos(elementos, total)
-    guardar_elementos(elementos, total)
+    elementos = obtener_elementos(carpeta)
+    imprimir_elementos(elementos)
+    guardar_elementos(elementos)
 
 # Para poder ejecutarlo como módulo
 if __name__ == "__main__": 
