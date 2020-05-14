@@ -4,15 +4,16 @@ import os
 import time
 
 """
-Versi´on usando POO (Programaci´on Orientada a Objetos)
+Versión usando POO (Programació Orientada a Objetos)
 """
 
 class Elemento():
     def __init__(self, nom, tam):
         """ El constructor del objeto Elemento """
-        self.nom = nom
-        self.tam = tam
-        self.fech = self.obteber_fecha()
+        # Definición y asignación de atributos
+        self.nom = nom  # valor de un argumento
+        self.tam = tam  # idem
+        self.fech = self.obteber_fecha()  # obtenido del S.O.
     
     def obteber_fecha(self):
         """ Obtener la fecha del elemento """
@@ -27,70 +28,71 @@ class Elemento():
         return fecha
         
     def __str__(self):
-        """ Regresa la versi´on en str de Elemento """
+        """ Regresa la versión en str de Elemento """
         
         return "{} | {} | {}".format(self.nom, self.tam, self.fech)
 
+    
 class Carpeta(Elemento):
     def __init__(self, ruta):
+        """ """
         Elemento.__init__(self, ruta, 0)  # super()
+        self.elementos = []
         
-
-
-def obtener_elementos(carpeta):
-    """
-    Obtiene los elementos de la carpeta y regresa en forma de
-    lista
-    """
-    # Obtener la lista de elemento de un carpeta
-    try:
-        nombres = os.listdir(carpeta)
-    except PermissionError:
-        return [], 0
-    
-    # Agregando carpeta a la lista de nombres
-    for i, nom in enumerate(nombres):
-        nombres[i] = os.path.join(carpeta, nom)
-    
-    # Agregar los datos adicionales a cada elemento
-    elementos = []
-    total = 0
-    for nom in nombres:
-        if os.path.isfile(nom):  # si es un archivo?
-            tam = os.path.getsize(nom)
-        else: # es una carpeta
-            tam = 0
-
-        # Obtener la fecha
+    def obtener_elementos(self):
+        """
+        Obtiene los elementos de la carpeta y regresa en forma de
+        lista
+        """
+        # Obtener la lista de elemento de un carpeta
         try:
-            fecha = os.path.getmtime(nom)
-            fecha = time.ctime(fecha)
-        except FileNotFoundError:
-            fecha = ""
+            nombres = os.listdir(self.nom)
         except PermissionError:
-            fecha = ""
+            return [], 0
 
-        elemento = [nom, tam, fecha]
-        elementos.append(elemento)
+        # Agregando carpeta a la lista de nombres
+        for i, nom in enumerate(nombres):
+            nombres[i] = os.path.join(self.nom, nom)
+
+        # Agregar los datos adicionales a cada elemento
+        total = 0
+        for nom in nombres:
+            if os.path.isfile(nom):  # si es un archivo?
+                tam = os.path.getsize(nom)
+            else: # es una carpeta
+                tam = 0
+
+            # Obtener la fecha
+            try:
+                fecha = os.path.getmtime(nom)
+                fecha = time.ctime(fecha)
+            except FileNotFoundError:
+                fecha = ""
+            except PermissionError:
+                fecha = ""
+
+            elemento = [nom, tam, fecha]
+            self.elementos.append(elemento)
+
+            # si es una carpeta, entonces obtenemos sus elementos
+            if os.path.isdir(nom):  # Si nom es una carpeta?
+                sub_carpeta = Carpeta(nom)
+                sub_carpeta.obtener_elementos()
+                
+                self.elementos += sub_carpeta.elementos
+                tam = sub_carpeta.elementos[-1][1]
+
+            # sumar el tam a total para cada elemento
+            total += tam  # total = total + tam
+            # Para hacer depuraci´on pusada
+            # print(elementos)
+            # input("Presiona ENTER")
+
+        # Agregando un elemento auxiliar para el total
+        elemento = ["Total:", total, "bytes"]
+        self.elementos.append(elemento)
+
         
-        # si es una carpeta, entonces obtenemos sus elementos
-        if os.path.isdir(nom):  # Si nom es una carpeta?
-            sub_elementos = obtener_elementos(nom)
-            elementos += sub_elementos
-            tam = sub_elementos[-1][1]
-
-        # sumar el tam a total para cada elemento
-        total += tam  # total = total + tam
-        # Para hacer depuraci´on pusada
-        # print(elementos)
-        # input("Presiona ENTER")
-    
-    # Agregando un elemento auxiliar para el total
-    elemento = ["Total:", total, "bytes"]
-    elementos.append(elemento)
-    
-    return elementos
-
 def imprimir_elementos(elementos):
     """
     Imprime la lista de elementos en formato texto en la salida
@@ -159,13 +161,12 @@ def main():
 
     # Instanciar objetos
     carpeta = Carpeta(ruta)  # carpeta es de tipo Carpeta()
-    print(carpeta)
-    # elementos = carpeta.obtener_elementos()
+    carpeta.obtener_elementos()
     
-    #imprimir_elementos(elementos)
-    #guardar_elementos(elementos)
-    #guardar_elementos_csv(elementos)
-    #guardar_elementos_json(elementos)
+    imprimir_elementos(carpeta.elementos)
+    guardar_elementos(carpeta.elementos)
+    guardar_elementos_csv(carpeta.elementos)
+    guardar_elementos_json(carpeta.elementos)
 
 # Para poder ejecutarlo como módulo
 if __name__ == "__main__": 
