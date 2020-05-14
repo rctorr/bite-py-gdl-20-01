@@ -1,13 +1,18 @@
 --------------------------------------------------------------------------------
-./lc.py                                                     |      5181|Wed May 13 19:48:36 2020
-./.ipynb_checkpoints//                                      |         0|Wed May 13 19:10:09 2020
-./.ipynb_checkpoints/01-POO-Definiendo-checkpoint.ipynb     |     75171|Wed May 13 19:09:59 2020
-./.ipynb_checkpoints/lc-01-checkpoint.py                    |      4841|Wed May 13 18:56:31 2020
-./.ipynb_checkpoints/Notas-checkpoint.ipynb                 |      1058|Mon May 11 21:28:40 2020
-./.ipynb_checkpoints/lc-checkpoint.py                       |      5181|Wed May 13 19:48:36 2020
-Total:                                                      |     86251|bytes          
-./Notas.ipynb                                               |      1057|Wed May 13 19:16:41 2020
-./lc-01.py                                                  |      4967|Wed May 13 19:00:39 2020
-./01-POO-Definiendo.ipynb                                   |     75171|Wed May 13 19:12:09 2020
-Total:                                                      |    172627|bytes          
+      1220 | Wed May 13 20:05:33 2020 | ./salida.txt
+       917 | Wed May 13 20:05:33 2020 | ./salida.csv
+      5182 | Wed May 13 20:05:29 2020 | ./lc.py
+         0 | Wed May 13 19:50:45 2020 | ./.ipynb_checkpoints
+     75171 | Wed May 13 19:09:59 2020 | ./.ipynb_checkpoints/01-POO-Definiendo-checkpoint.ipynb
+      4841 | Wed May 13 18:56:31 2020 | ./.ipynb_checkpoints/lc-01-checkpoint.py
+      1058 | Mon May 11 21:28:40 2020 | ./.ipynb_checkpoints/Notas-checkpoint.ipynb
+      1211 | Wed May 13 19:48:40 2020 | ./.ipynb_checkpoints/salida-checkpoint.txt
+       603 | Wed May 13 19:48:40 2020 | ./.ipynb_checkpoints/salida-checkpoint.csv
+      5182 | Wed May 13 20:05:29 2020 | ./.ipynb_checkpoints/lc-checkpoint.py
+      1045 | Wed May 13 19:48:40 2020 | ./.ipynb_checkpoints/salida-checkpoint.json
+     89111 | bytes           | en total
+      1569 | Wed May 13 20:05:33 2020 | ./salida.json
+      1057 | Wed May 13 19:16:41 2020 | ./Notas.ipynb
+     75171 | Wed May 13 19:12:09 2020 | ./01-POO-Definiendo.ipynb
+    174227 | bytes           | en total
 --------------------------------------------------------------------------------

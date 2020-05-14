@@ -71,7 +71,7 @@ class Carpeta(Elemento):
             except PermissionError:
                 fecha = ""
 
-            elemento = [nom, tam, fecha]
+            elemento = [tam, fecha, nom]
             self.elementos.append(elemento)
 
             # si es una carpeta, entonces obtenemos sus elementos
@@ -80,7 +80,7 @@ class Carpeta(Elemento):
                 sub_carpeta.obtener_elementos()
                 
                 self.elementos += sub_carpeta.elementos
-                tam = sub_carpeta.elementos[-1][1]
+                tam = sub_carpeta.elementos[-1][0]
 
             # sumar el tam a total para cada elemento
             total += tam  # total = total + tam
@@ -89,7 +89,7 @@ class Carpeta(Elemento):
             # input("Presiona ENTER")
 
         # Agregando un elemento auxiliar para el total
-        elemento = ["Total:", total, "bytes"]
+        elemento = [total, "bytes", "en total",]
         self.elementos.append(elemento)
 
         
@@ -104,7 +104,7 @@ def imprimir_elementos(elementos):
         # print("{} {}".format(e[0], e[1])
         if os.path.isdir(e[0]): # e = ["nom/", 1234, "fecha"]
             e[0] += "/" # e[0] = e[0] + "/"
-        print("{:40}|{:10}|{:15}".format(*e))
+        print("{:10} | {:15} | {}".format(*e))
     print("-" * 80)
 
 def guardar_elementos(elementos):
@@ -120,7 +120,7 @@ def guardar_elementos(elementos):
         # print("{} {}".format(e[0], e[1])
         if os.path.isdir(e[0]): # e = ["nom/", 1234, "fecha"]
             e[0] += "/" # e[0] = e[0] + "/"
-        print("{:60}|{:10}|{:15}".format(*e), file=da)
+        print("{:10} | {:15} | {}".format(*e), file=da)
     print("-" * 80, file=da)
     
     da.close()
@@ -135,13 +135,13 @@ def guardar_elementos_csv(elementos):
         # Crear un descript de archivo en csv
         da_csv = csv.writer(da)
         # Guarda el encabezado
-        enc = ["Nombre", "Tamaño", "Fecha"]
+        enc = ["Tamaño", "Fecha","Nombre"]
         da_csv.writerow(enc)
         # Guardar la lista
-        for e in elementos:  # e = ["nom", 1234, "fecha"]
+        for e in elementos:  # e = [1234,"fecha","nom"]
             # print("{} {}".format(e[0], e[1])
-            if os.path.isdir(e[0]): # e = ["nom/", 1234, "fecha"]
-                e[0] += "/" # e[0] = e[0] + "/"
+            if os.path.isdir(e[2]): # e = [1234, "fecha","nom/"]
+                e[2] += "/" # e[3] = e[3] + "/"
             da_csv.writerow(e)
 
 def guardar_elementos_json(elementos):
