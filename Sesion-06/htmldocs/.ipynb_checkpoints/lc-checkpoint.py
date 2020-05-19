@@ -70,6 +70,9 @@ class Carpeta(Elemento):
         except PermissionError:
             return
 
+        # Ordenar alfabéticamente
+        nombres.sort(key=lambda nom: nom.lower())
+        
         # Agregando carpeta a la lista de nombres
         nombres = [os.path.join(self.nombre, nom) for nom in nombres]
 
@@ -84,6 +87,12 @@ class Carpeta(Elemento):
                 self.tamanio += archivo.tamanio
 
         self.total += self.tamanio
+        
+        # Ordenar por tamaño de mayor a menor
+        # Donde está nuestra lista a ordenar, en que variable?
+        self.elementos.sort(key=lambda e: e.tamanio,
+            reverse=True)
+        
 
     def __str__(self):
         """ Regresa la versión en str de Elemento """
