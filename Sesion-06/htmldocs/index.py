@@ -21,8 +21,14 @@ def inicio():
     """
     tabla = []  # Lista de filas
     for e in carpeta.elementos:
-        fila = f"<tr><td>{e.tamanio}</td><td>{e.fecha}</td><td>{e.nombre}</td></tr>"
-        tabla.append(fila)
+        if isinstance(e, lc.Archivo):
+            fila = f"<tr><td>{e.tamanio}</td><td>{e.fecha}</td><td>{e.nombre}</td></tr>"
+            tabla.append(fila)
+        else:
+            e.obtener_elementos()
+            for f in e.elementos:
+                fila = f"<tr><td>{f.tamanio}</td><td>{f.fecha}</td><td>{f.nombre}</td></tr>"
+                tabla.append(fila)
     
     tabla = "\n".join(tabla)
     html = html.replace("{tabla}", tabla)
