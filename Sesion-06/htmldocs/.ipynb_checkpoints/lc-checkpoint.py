@@ -39,6 +39,15 @@ class Elemento():
             
         return tam
         
+    @property
+    def dict(self):
+        """ Regresar la versión en dict de una Carpeta """
+        return {
+            "nombre": self.nombre,
+            "tamanio": self.tamanio,
+            "fecha": self.fecha
+        }
+    
     def __str__(self):
         """ Regresa la versión en str de Elemento """
         return "{:10} | {:15} | {}".format(
@@ -92,8 +101,7 @@ class Carpeta(Elemento):
         # Donde está nuestra lista a ordenar, en que variable?
         self.elementos.sort(key=lambda e: e.tamanio,
             reverse=True)
-        
-
+    
     def __str__(self):
         """ Regresa la versión en str de Elemento """
         return Elemento.__str__(self) + os.path.sep

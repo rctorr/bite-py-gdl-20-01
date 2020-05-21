@@ -50,6 +50,34 @@ def inicio(nombre):
     """ Atiende la petición GET /hola/nombre """
     return template("<h1>Hola {{ nom }}!</h1>", nom=nombre)
 
+# Funciones para atender las peticones de la API
+@route("/api/json")
+def apijson():
+    """ Atendiendo la petición GET /api/json """
+    ruta = "."
+    carpeta = lc.Carpeta(ruta)
+    carpeta.obtener_elementos()
+
+    arch_dict = {
+        "Archivos": []
+    }
+    for e in carpeta.elementos:
+        arch_dict["Archivos"].append(e.dict)
+    
+    return arch_dict
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Equivalente a la ejecución del main()
