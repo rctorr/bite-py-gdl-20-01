@@ -50,6 +50,18 @@ def inicio(nombre):
     """ Atiende la petición GET /hola/nombre """
     return template("<h1>Hola {{ nom }}!</h1>", nom=nombre)
 
+
+def lista_elementos(carpeta):
+    """ Genera una lista con los elementos de carpeta """
+    elementos = []
+    for e in carpeta.elementos:
+        elementos.append(e.dict)
+        if isinstance(e, lc.Carpeta):
+            e.obtener_elementos()
+            elementos += lista_elementos(e)
+
+    return elementos
+
 # Funciones para atender las peticones de la API
 @route("/api/json")
 def apijson():
@@ -61,8 +73,7 @@ def apijson():
     arch_dict = {
         "Archivos": []
     }
-    for e in carpeta.elementos:
-        arch_dict["Archivos"].append(e.dict)
+    arch_dict["Archivos"] = lista_elementos(carpeta)
     
     return arch_dict
 
